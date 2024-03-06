@@ -1,8 +1,14 @@
-{% extends "base.html" %} {% block title %}This is a title{% endblock title %}
-{% block body %}
-<head>
-  <link rel="stylesheet" href="../static/css/signup-login-page.css" />
-</head>
+{% extends "base_navbar.html" %}
+
+{% block title %}
+Login Page
+{% endblock title %}
+
+{% block customCSS %}
+<link rel="stylesheet" href="../static/css/signup-login-page.css" />
+{% endblock customCSS %}
+
+{% block content %}
 <section class="background-radial-gradient overflow-hidden">
   <div class="container px-4 py-5 px-md-5 text-center text-lg-start my-5">
     <div class="row gx-lg-5 align-items-center mb-5">
@@ -77,5 +83,5 @@
       </div>
     </div>
   </div>
-  {% endblock body %}
 </section>
+{% endblock %}

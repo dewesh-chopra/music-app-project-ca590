@@ -31,24 +31,26 @@ Login Page
 
             <form action="/user_signup" method="POST">
               <!-- 2 column grid layout with text inputs for the first and last names -->
-              <div class="text-center h4 py-3">SignUp</div>
+              <div class="text-center h4 py-3">Your Profile</div>
               {% with messages = get_flashed_messages() %}
-                {% if messages %}
-                {% for message in messages %}
-                <div class="alert alert-danger mt-3">
+              {% if messages %}
+              {% for message in messages %}
+                <div class="alert mt-3">
                   {{ message }}
                 </div>
-                {% endfor %}
-                {% endif %}
-                {% endwith %}
+              {% endfor %}
+              {% endif %}
+              {% endwith %}
+              
+              <!-- First and last name -->
               <div class="row">
                 <div class="col-md-6 mb-4">
-
                   <div class="form-outline">
                     <input name="fname" type="text" id="form3Example1" class="form-control" />
                     <label class="form-label" for="form3Example1">First name</label>
                   </div>
                 </div>
+
                 <div class="col-md-6 mb-4">
                   <div class="form-outline">
                     <input name="lname" type="text" id="form3Example2" class="form-control" />
@@ -56,30 +58,30 @@ Login Page
                   </div>
                 </div>
               </div>
-              <!-- Username input -->
+
+              <!-- Username -->
               <div class="form-outline mb-4">
                 <input name="uname" type="username" id="form3Example3" class="form-control" />
                 <label class="form-label" for="form3Example3">Username
               </div>
 
-              <!-- Email input -->
+              <!-- Email -->
               <div class="form-outline mb-4">
                 <input name="email" type="email" id="form3Example3" class="form-control" />
                 <label class="form-label" for="form3Example3">Email address</label>
               </div>
 
-              <!-- Password input -->
+              <!-- Password -->
               <div class="form-outline mb-4">
                 <input name="password" type="password" id="form3Example4" class="form-control" />
                 <label class="form-label" for="form3Example4">Password</label>
               </div>
 
-              <!-- Submit button -->
+              <!-- Submit -->
               <button type="submit" class="btn btn-primary btn-block mb-4">
-                Sign up
+                Submit
               </button>
 
-              <p>Already registered? <a href="/user_login">Login now.</a></p>
             </form>
           </div>
         </div>

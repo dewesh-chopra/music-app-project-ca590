@@ -75,3 +75,25 @@ class UserOperation:
             session['fname']=row[0][0]
             session['uname']=row[0][1]
             return 1
+    def user_update(self, fname, lname):
+        db = self.connection()
+        mycursor = db.cursor()
+        sq = "update user_login_signup set fname=%s, lname=%s where uname=%s;"
+        record=[fname, lname, session['uname']]
+        mycursor.execute(sq,record)
+        db.commit()
+        session['fname']=fname
+        mycursor.close()
+        db.close()
+        return
+        
+    def user_profile(self):
+        db = self.connection()
+        mycursor = db.cursor()
+        sq = "select fname, lname, uname, email from user_login_signup where uname=%s;"
+        record=[session['uname']]
+        mycursor.execute(sq,record)
+        row = mycursor.fetchall()
+        mycursor.close()
+        db.close()
+        return row

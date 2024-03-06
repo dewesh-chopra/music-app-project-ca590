@@ -105,7 +105,46 @@ def user_login():
             flash("Invalid username and password!")
             return redirect(url_for('user_login'))
         else:
-            return "Welcome " + session['uname']
+            # return "Welcome " + session['uname']
+            return render_template('user_dashboard.html')
+
+#  Logout module
+@app.route('/user_logout', methods=['get', 'post'])
+def user_logout():
+    if request.method == 'get':
+        return redirect(url_for('user_login'))
+
+# User dashboard
+@app.route('/user_dashboard', methods=['get', 'post'])
+def user_dashboard():
+    if 'uname' in session:
+        if request.method == 'get':
+            # Destroys all user session data
+            session.clear()
+            return render_template('user_dashboard.html')
+    else:
+        flash('Login to continue!')
+        return render_template('user_login.html')
+
+# User profile
+@app.route('/user_profile', methods=['get', 'post'])
+def user_profile():
+    if 'uname' in session:
+        if request.method == 'get':
+            record = objuser.user_profile()
+            return render_template('user_profile.html', record=record)
+        else:
+            fname = request.form['fname']
+            fname = request.form['lname']
+            objuser.user_update()
+            return redirect(url_for('user_profile'))
+    else:
+        flash('Login to continue!')
+        return render_template('user_login.html')
+
+@app.errorhandler(404)
+def not_found(e):
+    return "NOT FOUND"
 
 if __name__ == "__main__":
     app.run(debug=True, port=5001)
