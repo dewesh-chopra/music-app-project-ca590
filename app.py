@@ -117,6 +117,30 @@ def user_logout():
         flash("You cannot access this page..please login")
         return redirect(url_for("user_login"))
     
+# Edit password module
+@app.route('/edit_password', methods=["GET", "POST"])
+def edit_password():
+    if 'uname' in session:
+        if request.method=='GET':
+            return render_template("edit_password.html")
+        elif request.method=='POST':
+            old_password = request.form['old_password']
+            new_password = request.form['new_password']
+            enc = encryption()
+            old_password = enc.convert(old_password)
+            if objuser.match_password(session['uname'], old_password)==True:
+                enc = encryption()
+                new_password = enc.convert(new_password)
+                objuser.change_password(session['uname'], new_password)
+                flash('Password successfully changed.')
+                return redirect(url_for("user_profile"))
+            else:
+                flash('Old password is incorrect.')
+                return redirect(url_for("edit_password"))
+    else:
+        flash("You cannot access this page..please login")
+        return redirect(url_for("user_login"))
+    
 # Delete module
 @app.route('/delete_user_account', methods=["GET", "POST"])
 def delete_user_account():

@@ -76,6 +76,32 @@ class UserOperation:
             session['fname']=row[0][0]
             session['uname']=row[0][1]
             return 1
+    
+    def match_password(self, uname, password):
+        db = self.connection()
+        mycursor = db.cursor()
+        sq = "select password from user_login_signup where uname=%s;"
+        record=[uname]
+        mycursor.execute(sq, record)
+        row = mycursor.fetchall()
+        mycursor.close()
+        db.close()
+        print(row[0][0])
+        if row[0][0] == password:
+            return True
+        else:
+            return False
+    
+    def change_password(self, uname, password):
+        db = self.connection()
+        mycursor = db.cursor()
+        sq = "update user_login_signup set password=%s where uname=%s;"
+        record=[password, uname]
+        mycursor.execute(sq,record)
+        db.commit()
+        mycursor.close()
+        db.close()
+        return
 
     def user_update(self, fname, lname):
         db = self.connection()

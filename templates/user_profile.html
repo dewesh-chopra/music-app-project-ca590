@@ -33,6 +33,16 @@ Profile Page
               <!-- 2 column grid layout with text inputs for the first and last names -->
               <div class="text-center h4 py-3">Your Profile</div>
               
+              {% with messages = get_flashed_messages() %}
+              {% if messages %}
+              {% for message in messages %}
+              <div class="alert alert-danger mt-3">
+              {{ message }}
+              </div>
+              {% endfor %}
+              {% endif %}
+              {% endwith %}
+              
               {% for r in record %}
               
               <!-- First and last name -->
@@ -72,10 +82,15 @@ Profile Page
 
               {% endfor %}
 
-              <!-- Submit -->
+              <!-- Edit name button -->
               <button type="submit" class="btn btn-primary btn-block mb-4">
                 Save changes
               </button>
+
+              <!-- Edit changes button -->
+              <a class="btn btn-primary btn-block mb-4 btn-danger" href="/edit_password">
+                Edit password
+              </a>
 
               <!-- Delete account button -->
               <a class="btn btn-primary btn-block mb-4 btn-danger" href="/delete_user_account">
