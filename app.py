@@ -10,9 +10,7 @@ app = Flask(__name__)
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 
 objuser = UserOperation()
-
 objvalid = myvalidate()
-
 objemail = Email(app)
 
 @app.route("/")
@@ -68,8 +66,8 @@ def user_signup():
 
 @app.route('/otpverify',methods=['GET','POST'])
 def otpverify():
-    if('otp' in globals()):
-        if(request.method=='GET'):
+    if 'otp' in globals():
+        if request.method=='GET':
             email = request.args.get('email')
             return render_template('otp.html',email=email)
         else:
@@ -89,7 +87,7 @@ def otpverify():
     else:
         return "can't access this page" 
 
-@app.route("/user_login", methods=['get', 'post'])
+@app.route("/user_login", methods=["GET", "POST"])
 def user_login():
     if request.method == "GET":
         return render_template("user_login.html")
@@ -108,39 +106,55 @@ def user_login():
             # return "Welcome " + session['uname']
             return render_template('user_dashboard.html')
 
-#  Logout module
-@app.route('/user_logout', methods=['get', 'post'])
+# Logout module
+@app.route('/user_logout', methods=["GET", "POST"])
 def user_logout():
-    if request.method == 'get':
-        return redirect(url_for('user_login'))
+    if 'uname' in session:
+        if request.method=='GET':
+            session.clear()
+            return render_template("user_logout.html")
+    else:
+        flash("You cannot access this page..please login")
+        return redirect(url_for("user_login"))
+    
+# Delete module
+@app.route('/delete_user_account', methods=["GET", "POST"])
+def delete_user_account():
+    if 'uname' in session:
+        if request.method=='GET':
+            objuser.user_delete(session['uname'])
+            session.clear()
+            return redirect(url_for("user_login"))
+    else:
+        flash("You cannot access this page..please login")
+        return redirect(url_for("user_login"))
 
 # User dashboard
-@app.route('/user_dashboard', methods=['get', 'post'])
+@app.route('/user_dashboard', methods=["GET", "POST"])
 def user_dashboard():
     if 'uname' in session:
-        if request.method == 'get':
-            # Destroys all user session data
-            session.clear()
+        if request.method == 'GET':
             return render_template('user_dashboard.html')
     else:
         flash('Login to continue!')
         return render_template('user_login.html')
 
 # User profile
-@app.route('/user_profile', methods=['get', 'post'])
+@app.route('/user_profile', methods=["GET", "POST"])
 def user_profile():
     if 'uname' in session:
-        if request.method == 'get':
+        if request.method == 'GET':
             record = objuser.user_profile()
             return render_template('user_profile.html', record=record)
-        else:
+        elif request.method == 'POST':
             fname = request.form['fname']
-            fname = request.form['lname']
-            objuser.user_update()
+            lname = request.form['lname']
+            password = request.form['password']
+            objuser.user_update(fname, lname, password)
             return redirect(url_for('user_profile'))
     else:
         flash('Login to continue!')
-        return render_template('user_login.html')
+        return redirect(url_for('user_login'))
 
 @app.errorhandler(404)
 def not_found(e):

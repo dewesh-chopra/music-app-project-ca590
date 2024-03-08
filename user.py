@@ -1,4 +1,5 @@
 from flask import session
+from encryption import encryption
 import mysql.connector as msc
 
 class UserOperation:
@@ -48,11 +49,11 @@ class UserOperation:
         mycursor.close()
         db.close()
 
-    def user_delete(self,email):
+    def user_delete(self,uname):
         db = self.connection()
         mycursor = db.cursor()
-        sq = "delete from user where email=%s"
-        record=[email]
+        sq = "delete from user_login_signup where uname=%s"
+        record=[uname]
         mycursor.execute(sq,record)
         db.commit()
         mycursor.close()
@@ -75,6 +76,7 @@ class UserOperation:
             session['fname']=row[0][0]
             session['uname']=row[0][1]
             return 1
+
     def user_update(self, fname, lname):
         db = self.connection()
         mycursor = db.cursor()
@@ -90,9 +92,9 @@ class UserOperation:
     def user_profile(self):
         db = self.connection()
         mycursor = db.cursor()
-        sq = "select fname, lname, uname, email from user_login_signup where uname=%s;"
+        sq = "select fname, lname, uname, email, password from user_login_signup where uname=%s;"
         record=[session['uname']]
-        mycursor.execute(sq,record)
+        mycursor.execute(sq, record)
         row = mycursor.fetchall()
         mycursor.close()
         db.close()

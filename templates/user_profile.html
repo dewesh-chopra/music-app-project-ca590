@@ -1,7 +1,7 @@
 {% extends "base_navbar.html" %}
 
 {% block title %}
-Login Page
+Profile Page
 {% endblock title %}
 
 {% block customCSS %}
@@ -29,31 +29,24 @@ Login Page
         <div class="card bg-glass ">
           <div class="card-body px-4 py-5 px-md-5 ">
 
-            <form action="/user_signup" method="POST">
+            <form action="/user_profile" method="POST">
               <!-- 2 column grid layout with text inputs for the first and last names -->
               <div class="text-center h4 py-3">Your Profile</div>
-              {% with messages = get_flashed_messages() %}
-              {% if messages %}
-              {% for message in messages %}
-                <div class="alert mt-3">
-                  {{ message }}
-                </div>
-              {% endfor %}
-              {% endif %}
-              {% endwith %}
+              
+              {% for r in record %}
               
               <!-- First and last name -->
               <div class="row">
                 <div class="col-md-6 mb-4">
                   <div class="form-outline">
-                    <input name="fname" type="text" id="form3Example1" class="form-control" />
+                    <input name="fname" value="{{r[0]}}" type="text" id="form3Example1" class="form-control" />
                     <label class="form-label" for="form3Example1">First name</label>
                   </div>
                 </div>
 
                 <div class="col-md-6 mb-4">
                   <div class="form-outline">
-                    <input name="lname" type="text" id="form3Example2" class="form-control" />
+                    <input name="lname" value="{{r[1]}}" type="text" id="form3Example2" class="form-control" />
                     <label class="form-label" for="form3Example2">Last name</label>
                   </div>
                 </div>
@@ -61,26 +54,33 @@ Login Page
 
               <!-- Username -->
               <div class="form-outline mb-4">
-                <input name="uname" type="username" id="form3Example3" class="form-control" />
+                <input name="uname" value="{{r[2]}}" type="username" id="form3Example3" class="form-control" readonly/>
                 <label class="form-label" for="form3Example3">Username
               </div>
 
               <!-- Email -->
               <div class="form-outline mb-4">
-                <input name="email" type="email" id="form3Example3" class="form-control" />
+                <input name="email" value="{{r[3]}}" type="email" id="form3Example3" class="form-control" readonly/>
                 <label class="form-label" for="form3Example3">Email address</label>
               </div>
 
               <!-- Password -->
               <div class="form-outline mb-4">
-                <input name="password" type="password" id="form3Example4" class="form-control" />
+                <input name="password" value="{{r[4]}}" type="password" id="form3Example4" class="form-control" readonly/>
                 <label class="form-label" for="form3Example4">Password</label>
               </div>
 
+              {% endfor %}
+
               <!-- Submit -->
               <button type="submit" class="btn btn-primary btn-block mb-4">
-                Submit
+                Save changes
               </button>
+
+              <!-- Delete account button -->
+              <a class="btn btn-primary btn-block mb-4 btn-danger" href="/delete_user_account">
+                Delete Account
+              </a>
 
             </form>
           </div>
