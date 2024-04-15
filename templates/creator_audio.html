@@ -1,0 +1,55 @@
+{% extends "base_navbar.html" %}
+
+{% block content %}
+
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+{% for message in messages %}
+<script>
+    alert("{{message}}")
+</script>
+    
+{% endfor %}
+{% endif %}
+{% endwith %}
+<div class="container">
+    <h1 class="text-center">Your Audio Platform</h1>
+
+    <form class="container mt-4" action="/creator_audioblog" method="post" enctype="multipart/form-data">
+        <div class="row">
+            <div class="col-6">
+                <select id="category" class="form-select w-50">
+                    <option>Rock</option>
+                    <option>Pop</option>
+                    <option>Vintage</option>
+                    <option>Instrumental</option>
+                    <option>Jazz</option>
+                    <option>Spiritual</option>
+                    <option>Extra</option>
+                </select>
+            </div>
+            
+            <div class="col-6"><input class="form-control" type="file" name="audio"></div>
+            
+            <div class="col-6"><button class="btn btn-warning" type="submit">upload your audio</button></div>
+        </div>
+    </form>
+    
+    <div class="text-center">
+        <span class="text-warning">Record Your Audio Blog in English</span><a href="/creator_audioblog?lang=1" onclick=useCategory(this)><img src="/static/img/audioblog/rec.png" width="50px" height="50px"></a>
+    </div>
+
+    <div class="text-center">
+        <span class="text-warning">Record Your Audio Blog in Hindi</span><a href="/creator_audioblog?lang=2" onclick=useCategory(this)><img src="/static/img/audioblog/rec.png" width="50px" height="50px"></a>
+    </div>
+
+    <script>
+        function useCategory(link) {
+            let cat = document.getElementById('category').value
+            link.href = link.href + "&category=" + cat
+        }
+    </script>
+
+</div>
+
+{% endblock %}

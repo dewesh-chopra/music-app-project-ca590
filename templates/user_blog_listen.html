@@ -1,0 +1,64 @@
+{% extends "base_navbar.html" %}
+
+{% block content %}
+
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+{% for message in messages %}
+<script>
+    alert("{{message}}")
+</script>
+    
+{% endfor %}
+{% endif %}
+{% endwith %}
+
+        <div class="container pt-5">
+          {% with messages = get_flashed_messages() %}
+          {% if messages %}
+          {% for message in messages %}
+          <script>
+            alert('{{message}}')
+          </script>
+              
+          </div>
+          {% endfor %}
+          {% endif %}
+          {% endwith %}
+        
+
+          <div>
+            Blogs
+          </div>
+        <table class="table table-dark table-hover">
+            <thead>
+                <tr>
+                  <th scope="col">S. no.</th>
+                  <th scope="col">Audio ID</th>
+                  <th scope="col">Category</th>
+                  <th scope="col">Play</th>
+                  <th scope="col">Blog Text</th>
+                  <th scope="col">Playlist</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for r in record %}
+                <tr>
+                  <th scope="row">{{ loop.index }}</th>
+                  <td>{{r[0]}}</td>
+                  <td>{{r[1]}}</td>
+                  <td>
+                    <audio controls>
+                    <source src="/static/audioblog/{{r[2]}}" type="audio/wav">
+                    Your browser does not support the audio element.
+                    </audio>
+                  </td>
+                  <td>{{r[3]}}</td>
+                  <td><button class="btn btn-warning">Playlist</button></td>
+                </tr>
+                {% endfor %}
+              </tbody>
+          </table>
+        </div>
+
+{% endblock %}

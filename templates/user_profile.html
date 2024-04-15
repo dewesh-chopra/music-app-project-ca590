@@ -64,20 +64,16 @@ Profile Page
 
               <!-- Username -->
               <div class="form-outline mb-4">
-                <input name="uname" value="{{r[2]}}" type="username" id="form3Example3" class="form-control" readonly/>
+                <div class="form-control mb-text-muted">{{r[2]}}</div>
+                <!-- <input name="uname" value="{{r[2]}}" type="username" id="form3Example3" class="form-control"/> -->
                 <label class="form-label" for="form3Example3">Username
               </div>
 
               <!-- Email -->
               <div class="form-outline mb-4">
-                <input name="email" value="{{r[3]}}" type="email" id="form3Example3" class="form-control" readonly/>
+                <div class="form-control mb-text-muted">{{r[3]}}</div>
+                <!-- <input name="email" value="{{r[3]}}" type="email" id="form3Example3" class="form-control"/> -->
                 <label class="form-label" for="form3Example3">Email address</label>
-              </div>
-
-              <!-- Password -->
-              <div class="form-outline mb-4">
-                <input name="password" value="{{r[4]}}" type="password" id="form3Example4" class="form-control" readonly/>
-                <label class="form-label" for="form3Example4">Password</label>
               </div>
 
               {% endfor %}

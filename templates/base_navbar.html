@@ -30,13 +30,58 @@
                     <a class="nav-link active" href="#">About</a>
                   </li>
 
+                  <!-- For user -->
+                  {% if  session['uname']%}
                   <li class="nav-item">
-                    <a class="nav-link active" href="/user_profile">{{session['fname']}}</a>
+                    <a class="nav-link active" href="/user_profile">{{session['uname']}}</a>
                   </li>
+
+                  {% if (self._TemplateReference__context.name == "user_blog_listen.html" or self._TemplateReference__context.name == "user_song_listen.html") or (self._TemplateReference__context.name == "user_dashboard.html" or self._TemplateReference__context.name == "user_profile.html") %}
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      Library
+                    </a>
+                    <ul class="dropdown-menu">
+                      <li><a class="dropdown-item" href="/user_song_listen">Songs</a></li>
+                      <li><hr class="dropdown-divider"></li>
+                      <li><a class="dropdown-item" href="/user_blog_listen">Blogs</a></li>
+                    </ul>
+                  </li>
+                  {% endif %}
 
                   <li class="nav-item">
                     <a class="nav-link active" href="/user_logout">Logout</a>
                   </li>
+                  {% endif %}
+
+                  <!-- For creator -->
+                  {% if  session['cname']%}
+                  <li class="nav-item">
+                    <a class="nav-link active" href="/creator_profile">{{session['cname']}}</a>
+                  </li>
+
+                  {% if self._TemplateReference__context.name != "creator_audio.html" %}
+                  <li class="nav-item">
+                    <a class="nav-link active" href="/creator_audio">Audio</a>
+                  </li>
+                  {% endif %}
+                  {% if self._TemplateReference__context.name == "creator_audio.html" %}
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      Library
+                    </a>
+                    <ul class="dropdown-menu">
+                      <li><a class="dropdown-item" href="/creator_get_uploaded">Uploads</a></li>
+                      <li><hr class="dropdown-divider"></li>
+                      <li><a class="dropdown-item" href="/creator_get_recorded">Blogs</a></li>
+                    </ul>
+                  </li>
+                  {% endif %}
+
+                  <li class="nav-item">
+                    <a class="nav-link active" href="/creator_logout">Logout</a>
+                  </li>
+                  {% endif %}
 
                 </ul>
                 <form class="d-flex" role="search">
