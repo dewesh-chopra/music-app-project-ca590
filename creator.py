@@ -102,24 +102,24 @@ class CreatorOperation:
         db.close()
         return
 
-    def creator_audioblog(self,audio,audiotext, category):
+    def creator_audioblog(self,audio,audiotext, category, title):
         db = self.connection()
         mycursor = db.cursor()
-        sq = "insert into audioblog(creator_id,audio,audiotext,category, created_at) values (%s,%s,%s,%s, %s);"
+        sq = "insert into audioblog(creator_id,audio,audiotext,category, created_at, title) values (%s,%s,%s,%s, %s, %s);"
         created_at = datetime.now()
-        record=[session['creator_id'],audio,audiotext, category,created_at]
+        record=[session['creator_id'],audio,audiotext, category,created_at, title]
         mycursor.execute(sq,record)
         db.commit()
         mycursor.close()
         db.close()
         return
     
-    def creator_audio_upload(self,path, category):
+    def creator_audio_upload(self,path, category, title):
         db = self.connection()
         mycursor = db.cursor()
-        sq = "insert into audio_upload (creator_id,audio, category,created_at) values (%s,%s,%s,%s)"
+        sq = "insert into audio_upload (creator_id,audio, category,created_at, title) values (%s,%s,%s,%s, %s)"
         created_at = datetime.now()
-        record=[session['creator_id'],path,category,created_at]
+        record=[session['creator_id'],path,category,created_at, title]
         mycursor.execute(sq,record)
         db.commit()
         mycursor.close()
@@ -129,7 +129,7 @@ class CreatorOperation:
     def get_uploaded(self):
         db = self.connection()
         mycursor = db.cursor()
-        query = "select id, category, audio from audio_upload where creator_id=%s;"
+        query = "select id, category, title, audio from audio_upload where creator_id=%s;"
         record = [session['creator_id']]
         mycursor.execute(query, record)
         rows = mycursor.fetchall()
@@ -140,7 +140,7 @@ class CreatorOperation:
     def get_recorded(self):
         db = self.connection()
         mycursor = db.cursor()
-        query = "select id, audio, audiotext, category from audioblog where creator_id=%s;"
+        query = "select id, category, title, audio from audioblog where creator_id=%s;"
         record = [session['creator_id']]
         mycursor.execute(query, record)
         rows = mycursor.fetchall()
@@ -173,7 +173,7 @@ class CreatorOperation:
     def creator_edit_audio(self, audio_id):
         db = self.connection()
         mycursor = db.cursor()
-        sq = "select category from audioblog where id=%s"
+        sq = "select category, title from audioblog where id=%s"
         record=[audio_id]
         mycursor.execute(sq, record)
         row = mycursor.fetchall()
@@ -181,13 +181,35 @@ class CreatorOperation:
         db.close()
         return row
     
-    def creator_audio_update(self, audio_id, category):
+    def creator_audio_update(self, audio_id, category, title):
         db = self.connection()
         mycursor = db.cursor()
-        sq = "update audioblog set category=%s where id=%s"
-        record=[category, audio_id]
+        sq = "update audioblog set category=%s, title=%s where id=%s"
+        record=[category, title, audio_id]
         mycursor.execute(sq, record)
         db.commit()
         mycursor.close()
         db.close()
         return
+    
+    def creator_search_song(self, search_term):
+        db = self.connection()
+        mycursor = db.cursor()
+        sq = "select id, category, title, audio from audio_upload where creator_id=%s and title like %s;"
+        record=[session['creator_id'], '%' + search_term + '%']
+        mycursor.execute(sq, record)
+        row = mycursor.fetchall()
+        mycursor.close()
+        db.close()
+        return row
+    
+    def creator_search_blog(self, search_term):
+        db = self.connection()
+        mycursor = db.cursor()
+        sq = "select id, category, title, audio from audioblog where creator_id=%s and title like %s;"
+        record=[session['creator_id'], '%' + search_term + '%']
+        mycursor.execute(sq, record)
+        row = mycursor.fetchall()
+        mycursor.close()
+        db.close()
+        return row

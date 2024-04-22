@@ -20,10 +20,17 @@ th, td {
 {% block content %}
 <main>
     <div>
-        <p>Audio uploads by creator</p>
+        <p>Blogs by creator</p>
+
+        <div>
+            <form class="d-flex" role="search" method="post" action="/creator_search_blog">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="search_term">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+        </div>
     </div>
 
-    <div class="viewtable">
+    <div class="viewtable pt-5">
         <!-- Jinja for alerting user when regration is successful -->
         {% with messages = get_flashed_messages() %}
         {% if messages %}
@@ -39,25 +46,25 @@ th, td {
             <tr>
                 <th>S.no.</th>
                 <th>Id</th>
-                <th>Play</th>
-                <th>Transcript</th>
                 <th>Category</th>
+                <th>Title</th>
+                <th>Play</th>
                 <th>Edit</th>
                 <th>Delete</th>
             </tr>
 
-            {% for row in rows %}
+            {% for r in record %}
             <tr>
                 <td>{{loop.index}}</td>
-                <td>{{row[0]}}</td>
-                <td><audio controls><source src="/static/audioblog/{{row[1]}}" type="audio/wav"></audio></td>
+                <td>{{r[0]}}</td>
+                <td>{{r[1]}}</td>
+                <td>{{r[2]}}</td>
+
+                <td><audio controls><source src="/static/audioblog/{{r[3]}}" type="audio/wav"></audio></td>
                 
-                <td>{{row[2]}}</td>
-                <td>{{row[3]}}</td>
+                <td><a href="/creator_edit_audio?audio_id={{r[0]}}"><img src="/static/img/tools/edit.png" alt="Edit icon" width="40px"></a></td>
                 
-                <td><a href="/creator_edit_audio?audio_id={{row[0]}}"><img src="/static/img/tools/edit.png" alt="Edit icon" width="40px"></a></td>
-                
-                <td><a href="/creator_delete_audioblog?audioblog_id={{row[0]}}"><img src="/static/img/tools/bin.png" alt="Delete icon" width="40px"></a></td>
+                <td><a href="/creator_delete_audioblog?audioblog_id={{r[0]}}"><img src="/static/img/tools/bin.png" alt="Delete icon" width="40px"></a></td>
             </tr>
             {% endfor %}
         </table>

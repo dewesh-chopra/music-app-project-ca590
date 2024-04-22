@@ -18,7 +18,7 @@
     <form class="container mt-4" action="/creator_audioblog" method="post" enctype="multipart/form-data">
         <div class="row">
             <div class="col-6">
-                <select id="category" class="form-select w-50">
+                <select id="category" name="category" class="form-select w-50">
                     <option>Rock</option>
                     <option>Pop</option>
                     <option>Vintage</option>
@@ -28,12 +28,16 @@
                     <option>Extra</option>
                 </select>
             </div>
-            
+
             <div class="col-6"><input class="form-control" type="file" name="audio"></div>
             
-            <div class="col-6"><button class="btn btn-warning" type="submit">upload your audio</button></div>
+            <div class="col-6"><input class="form-control" type="text" id="title" name="title" placeholder="Audio title"></div>
+            
+            <div class="col-6"><button class="btn btn-warning" type="submit">Upload audio</button></div>
         </div>
     </form>
+
+    OR
     
     <div class="text-center">
         <span class="text-warning">Record Your Audio Blog in English</span><a href="/creator_audioblog?lang=1" onclick=useCategory(this)><img src="/static/img/audioblog/rec.png" width="50px" height="50px"></a>
@@ -46,7 +50,8 @@
     <script>
         function useCategory(link) {
             let cat = document.getElementById('category').value
-            link.href = link.href + "&category=" + cat
+            let title = document.getElementById('title').value
+            link.href = link.href + "&category=" + cat + "&title=" + title
         }
     </script>
 

@@ -20,22 +20,31 @@
           <script>
             alert('{{message}}')
           </script>
-              
-          </div>
+            
           {% endfor %}
           {% endif %}
           {% endwith %}
         
 
           <div>
-            Songs
+            <p>
+              Songs
+            </p>
+            <div>
+              <form class="d-flex" role="search" method="post" action="/user_search_song">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="search_term">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+              </form>
+            </div>
           </div>
-        <table class="table table-dark table-hover">
+        
+          <div class="pt-5">
+          <table class="table table-dark table-hover">
             <thead>
                 <tr>
                   <th scope="col">S. no.</th>
-                  <th scope="col">Audio ID</th>
                   <th scope="col">Category</th>
+                  <th scope="col">Title</th>
                   <th scope="col">Play</th>
                   <th scope="col">Playlist</th>
                 </tr>
@@ -44,20 +53,20 @@
                 {% for r in record %}
                 <tr>
                   <th scope="row">{{ loop.index }}</th>
-                  <td>{{r[0]}}</td>
                   <td>{{r[1]}}</td>
+                  <td>{{r[2]}}</td>
                   <td>
                     <audio controls>
-                    <source src="/static/audioblog/{{r[2]}}" type="audio/wav">
+                    <source src="/static/audioblog/{{r[3]}}" type="audio/wav">
                     Your browser does not support the audio element.
                     </audio>
                   </td>
-                  <td>{{r[3]}}</td>
                   <td><button class="btn btn-warning">Playlist</button></td>
                 </tr>
                 {% endfor %}
               </tbody>
           </table>
+        </div>
         </div>
 
 {% endblock %}
