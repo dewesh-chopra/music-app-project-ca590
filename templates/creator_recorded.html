@@ -49,6 +49,7 @@ th, td {
                 <th>Category</th>
                 <th>Title</th>
                 <th>Play</th>
+                <th>View</th>
                 <th>Edit</th>
                 <th>Delete</th>
             </tr>
@@ -62,7 +63,9 @@ th, td {
 
                 <td><audio controls><source src="/static/audioblog/{{r[3]}}" type="audio/wav"></audio></td>
                 
-                <td><a href="/creator_edit_audio?audio_id={{r[0]}}"><img src="/static/img/tools/edit.png" alt="Edit icon" width="40px"></a></td>
+                <td><a href="/creator_blog_view?audio_id={{r[0]}}">View</a></td>
+
+                <td><a href="/creator_edit_audio_blog?audio_id={{r[0]}}"><img src="/static/img/tools/edit.png" alt="Edit icon" width="40px"></a></td>
                 
                 <td><a href="/creator_delete_audioblog?audioblog_id={{r[0]}}"><img src="/static/img/tools/bin.png" alt="Delete icon" width="40px"></a></td>
             </tr>

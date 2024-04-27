@@ -167,3 +167,25 @@ class UserOperation:
         mycursor.close()
         db.close()
         return row
+    
+    def user_song_view(self, audio_id):
+        db = self.connection()
+        mycursor = db.cursor()
+        sq = "SELECT audio_upload.title, audio_upload.created_at, audio_upload.category, audio_upload.audio, creator_login_signup.fname, creator_login_signup.lname FROM audio_upload JOIN creator_login_signup ON audio_upload.creator_id = creator_login_signup.id WHERE audio_upload.id = %s;"
+        record = [audio_id]
+        mycursor.execute(sq, record)
+        row = mycursor.fetchall()
+        mycursor.close()
+        db.close()
+        return row
+    
+    def user_blog_view(self, audio_id):
+        db = self.connection()
+        mycursor = db.cursor()
+        sq = "SELECT audioblog.title, audioblog.created_at, audioblog.category, audioblog.audio, audioblog.audiotext, creator_login_signup.fname, creator_login_signup.lname FROM audioblog JOIN creator_login_signup ON audioblog.creator_id = creator_login_signup.id WHERE audioblog.id = %s;"
+        record = [audio_id]
+        mycursor.execute(sq, record)
+        row = mycursor.fetchall()
+        mycursor.close()
+        db.close()
+        return row

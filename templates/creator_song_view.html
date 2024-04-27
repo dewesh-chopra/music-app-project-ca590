@@ -1,0 +1,63 @@
+{% extends "base_navbar.html" %}
+
+{% block title %}
+MewSick - View My Song
+{% endblock title %}
+
+{% block customCSS %}
+    <style>
+        body {
+            background-color: rgb(40, 40, 40);
+        }
+        .viewSection {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+        }
+        .viewCard {
+            width: 80%;
+            border: 3px solid white;
+            border-radius: 5px;
+            margin-top: 5%;
+        }
+
+        @media (min-width: 240px) and (max-width: 720px) {
+            .viewSection {
+                flex-direction: column;
+            }
+            .viewCard {
+                width: 80%;
+            }
+        }
+    </style>
+{% endblock customCSS %}
+
+{% block content %}
+<main>
+    <div class="container">
+        <div class="viewSection">
+            <div class="card viewCard">
+                <div class="card-header">
+                    <p class="card-title">TITLE: {{record[0][0]}}</p>
+                </div>
+
+                <div class="card-body">
+                    <h5 class="card-title">Created at:</h5>
+                    <p class="card-text">{{record[0][1]}}</p>
+                </div>
+
+                <div class="card-body">
+                    <h5 class="card-title">Category:</h5>
+                    <p class="card-text">{{record[0][2]}}</p>
+                </div>
+
+                <div class="card-body">
+                    <h5 class="card-title">Listen:</h5>
+                    <p class="card-text"><audio controls><source src="/static/audioblog/{{record[0][3]}}" type="audio/wav">Your browser does not support the audio element.</audio></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

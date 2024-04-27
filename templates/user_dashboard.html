@@ -1,13 +1,44 @@
 {% extends "base_navbar.html" %}
 
 {% block title %}
-User Dashboard
+MewSick - User Dashboard
 {% endblock title %}
+
+{% block customCSS %}
+    <style>
+        body {
+            background-color: rgb(40, 40, 40);
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .section {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin-top: 10%;
+            width: 50%;
+            border: 2px solid white;
+            padding: 10px;
+        }
+    </style>
+{% endblock customCSS %}
 
 {% block content %}
 <main>
-    <div>
-        <p>Still need to craete a proper dashboard.</p>
+    <div class="container">
+        <div class="section">
+            <div class="spinner-border text-white" role="status">
+                <span class="visually-hidden">Coming soon ...</span>
+            </div>
+            <div class="text-white">
+                <span>Coming soon ...</span>
+            </div>
+        </div>
     </div>
 </main>
 {% endblock %}

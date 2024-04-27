@@ -1,0 +1,156 @@
+{% extends "base_navbar.html" %}
+
+{% block title %}
+MewSick - About
+{% endblock title %}
+
+{% block customCSS %}
+    <style>
+        body {
+            background-color: rgb(40, 40, 40);
+        }
+        .aboutSection {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+        }
+        .aboutCard {
+            width: 80%;
+            border: 3px solid white;
+            border-radius: 5px;
+            margin-top: 10%;
+        }
+        #tab3 hr {
+            height: 3px;
+            color: rgb(40, 40, 40);
+            background-color: rgb(40, 40, 40);
+        }
+        .nav-link {
+            cursor: pointer;
+        }
+
+        @media (min-width: 240px) and (max-width: 720px) {
+            .aboutSection {
+                flex-direction: column;
+            }
+            .aboutCard {
+                width: 80%;
+            }
+        }
+    </style>
+{% endblock customCSS %}
+
+{% block content %}
+<main>
+    <div class="container">
+        <div class="aboutSection">
+            <div class="card aboutCard">
+                <div class="card-header">                   
+                    <ul class="nav nav-tabs card-header-tabs">
+                        <li class="nav-item">
+                            <a id="linkTab1" class="nav-link active" aria-current="true" onclick="openTab1()">Who</a>
+                        </li>
+                        <li class="nav-item">
+                            <a id="linkTab2" class="nav-link" onclick="openTab2()">What</a>
+                        </li>
+                        <li class="nav-item">
+                            <a id="linkTab3" class="nav-link" onclick="openTab3()">When, where and how ...</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div id="tab1" class="card-body">
+                  <h5 class="card-title">Who developed the application?</h5>
+                  <p class="card-text"><a href="/">MewSick</a> is developed by a team of 5 members headed by <a href="https://github.com/dewesh-chopra">Dewesh Chopra</a>.</p>
+                  <p class="card-text">All the members are post-graduate students from BIT, Mesra. They are listed as follows.</p>
+                  <p class="card-text">
+                    <ul>
+                        <li>Dewesh Chopra</li>
+                        <li>Dibyanshu Kiro</li>
+                        <li>Amit Anurag Sanga</li>
+                        <li>Rishabh Raaj</li>
+                        <li>Nischal Toppo</li>
+                    </ul>
+                  </p>
+                </div>
+
+                <div id="tab2" class="card-body" style="display:none;">
+                  <h5 class="card-title">What is this application?</h5>
+                  <p class="card-text"><a href="/">MewSick</a> is a web-based music application providing access to hundreds of songs and podcasts. It works seamlessly on both desktop and mobile. It provides a creator-mode access, allowing the user to record and host their own music.</p>
+                </div>
+
+                <div id="tab3" class="card-body" style="display:none;">
+                  <h5 class="card-title">Need more information?</h5>
+                  <p class="card-text">Be sure to check out the official developer handle of <a href="/">MewSick</a>.</p>
+                  <a href="https://github.com/dewesh-chopra/music-app-project-ca590" class="btn btn-secondary">GitHub</a>
+
+                  <hr />
+
+                  <h5 class="card-title">Want to contribute to the project?</h5>
+                  <p class="card-text">You can contribute to the project by making a small donation at <a href="/contribute">our official donation page</a>. You can also visit our <a href="https://www.linkedin.com/in/dewesh-chopra">media handle</a> and contact us for any partnership.</p>
+                  <a href="mailto:chopradewesh@outlook.com" class="btn btn-secondary">Contact</a>
+                </div>
+              </div>
+        </div>
+    </div>
+</main>
+
+<script>
+    var vLinkTab1 = document.getElementById('linkTab1')
+    var vLinkTab2 = document.getElementById('linkTab2')
+    var vLinkTab3 = document.getElementById('linkTab3')
+
+    var vTab1 = document.getElementById('tab1')
+    var vTab2 = document.getElementById('tab2')
+    var vTab3 = document.getElementById('tab3')
+
+    function openTab1() {
+        // Check that other tabs are deactivated and
+        // activate the selected tab
+        if (vLinkTab2.classList.contains("active")) {
+            vLinkTab2.classList.remove("active");
+            vTab2.style.display = "none";
+        }
+        if (vLinkTab3.classList.contains("active")) {
+            vLinkTab3.classList.remove("active");
+            vTab3.style.display = "none";
+        }
+
+        if (!vLinkTab1.classList.contains("active")) {
+            vLinkTab1.classList.add("active");
+            vTab1.style.display = "block";
+        }
+    }
+    function openTab2() {
+        if (vLinkTab1.classList.contains("active")) {
+            vLinkTab1.classList.remove("active");
+            vTab1.style.display = "none";
+        }
+        if (vLinkTab3.classList.contains("active")) {
+            vLinkTab3.classList.remove("active");
+            vTab3.style.display = "none";
+        }
+
+        if (!vLinkTab2.classList.contains("active")) {
+            vLinkTab2.classList.add("active");
+            vTab2.style.display = "block";
+        }
+    }
+    function openTab3() {
+        if (vLinkTab1.classList.contains("active")) {
+            vLinkTab1.classList.remove("active");
+            vTab1.style.display = "none";
+        }
+        if (vLinkTab2.classList.contains("active")) {
+            vLinkTab2.classList.remove("active");
+            vTab2.style.display = "none";
+        }
+
+        if (!vLinkTab3.classList.contains("active")) {
+            vLinkTab3.classList.add("active");
+            vTab3.style.display = "block";
+        }
+    }
+</script>
+{% endblock %}

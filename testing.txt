@@ -1,16 +1,18 @@
-TO DO:
+Changes to be done in UI:
 
-1)
-menu -> audio -> blogs + songs
-blog -> audio blog
-song -> audio upload
+theme --- DONE
+logo/favicon --- DONE
+about --- DONE
+dashboard --- DONE
+audio view page (both) --- DONE
 
-2)
-menu -> category -> all category wise filters
-need table joins etc.   
+contribute (payment) --- SIR
+comment/review --- SIR
 
-3)
-search via title
-need title column in table other than the name
-name -> '17121415.wav'
-title -> 'A rainy day.wav'
+home --- LEFT SOME --- REFER YOUR RESUME WEBPAGE
+
+otp page
+login and signup page (both)
+profile (both)
+audio recording page (creator)
+audio listen page (both)

@@ -170,7 +170,7 @@ class CreatorOperation:
         db.close()
         return
 
-    def creator_edit_audio(self, audio_id):
+    def creator_edit_audio_blog(self, audio_id):
         db = self.connection()
         mycursor = db.cursor()
         sq = "select category, title from audioblog where id=%s"
@@ -181,10 +181,32 @@ class CreatorOperation:
         db.close()
         return row
     
-    def creator_audio_update(self, audio_id, category, title):
+    def creator_audio_update_blog(self, audio_id, category, title):
         db = self.connection()
         mycursor = db.cursor()
         sq = "update audioblog set category=%s, title=%s where id=%s"
+        record=[category, title, audio_id]
+        mycursor.execute(sq, record)
+        db.commit()
+        mycursor.close()
+        db.close()
+        return
+    
+    def creator_edit_audio_upload(self, audio_id):
+        db = self.connection()
+        mycursor = db.cursor()
+        sq = "select category, title from audio_upload where id=%s"
+        record=[audio_id]
+        mycursor.execute(sq, record)
+        row = mycursor.fetchall()
+        mycursor.close()
+        db.close()
+        return row
+    
+    def creator_audio_update_upload(self, audio_id, category, title):
+        db = self.connection()
+        mycursor = db.cursor()
+        sq = "update audio_upload set category=%s, title=%s where id=%s"
         record=[category, title, audio_id]
         mycursor.execute(sq, record)
         db.commit()
@@ -208,6 +230,28 @@ class CreatorOperation:
         mycursor = db.cursor()
         sq = "select id, category, title, audio from audioblog where creator_id=%s and title like %s;"
         record=[session['creator_id'], '%' + search_term + '%']
+        mycursor.execute(sq, record)
+        row = mycursor.fetchall()
+        mycursor.close()
+        db.close()
+        return row
+    
+    def creator_blog_view(self, audio_id):
+        db = self.connection()
+        mycursor = db.cursor()
+        sq = "SELECT audioblog.title, audioblog.created_at, audioblog.category, audioblog.audio, audioblog.audiotext FROM audioblog WHERE audioblog.id = %s;"
+        record = [audio_id]
+        mycursor.execute(sq, record)
+        row = mycursor.fetchall()
+        mycursor.close()
+        db.close()
+        return row
+    
+    def creator_song_view(self, audio_id):
+        db = self.connection()
+        mycursor = db.cursor()
+        sq = "SELECT audio_upload.title, audio_upload.created_at, audio_upload.category, audio_upload.audio FROM audio_upload WHERE audio_upload.id = %s;"
+        record = [audio_id]
         mycursor.execute(sq, record)
         row = mycursor.fetchall()
         mycursor.close()

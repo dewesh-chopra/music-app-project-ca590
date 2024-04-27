@@ -46,6 +46,7 @@
                   <th scope="col">Category</th>
                   <th scope="col">Title</th>
                   <th scope="col">Play</th>
+                  <th scope="col">Details</th>
                   <th scope="col">Playlist</th>
                 </tr>
               </thead>
@@ -61,7 +62,8 @@
                     Your browser does not support the audio element.
                     </audio>
                   </td>
-                  <td><button class="btn btn-warning">Playlist</button></td>
+                  <td><a class="btn btn-warning" href="/user_song_view?audio_id={{r[0]}}">View</a></td>
+                  <td><button class="btn btn-warning">Add</button></td>
                 </tr>
                 {% endfor %}
               </tbody>

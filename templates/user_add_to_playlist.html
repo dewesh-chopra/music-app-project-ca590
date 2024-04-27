@@ -5,22 +5,22 @@ Edit Audio
 {% endblock title %}
 
 {% block content %}
-
-{% with messages = get_flashed_messages() %}
-{% if messages %}
-{% for message in messages %}
-<script>
-    alert("{{message}}")
-</script>
-    
-{% endfor %}
-{% endif %}
-{% endwith %}
 <div class="container">
     <h1 class="text-center">Edit Audio</h1>
 
+    <!-- Jinja for alerting user when regration is successful -->
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert mt-3">
+      {{ message }}
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+    
     {% for r in record %}
-    <form class="container mt-4" action="/creator_edit_audio?audio_id={{request.args.get('audio_id')}}" method="post" enctype="multipart/form-data">
+    <form class="container mt-4" action="/user_add_to_playlist?audio_id={{request.args.get('audio_id')}}" method="post" enctype="multipart/form-data">
         <div class="row">
             <div class="col-6">
                 <select id="category" name="category" class="form-select w-50">

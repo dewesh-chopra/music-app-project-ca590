@@ -19,9 +19,19 @@ objcreator = CreatorOperation()
 objvalid = myvalidate()
 objemail = Email(app)
 
+# Default routing
+
 @app.route("/")
 def home():
     return render_template("index.html")
+
+@app.route("/about")
+def about():
+    return render_template("about.html")
+
+@app.route("/contribute")
+def contribute():
+    return render_template("contribute.html")
 
 # USER MODULES
 
@@ -220,8 +230,8 @@ def user_blog_listen():
 def user_song_listen():
     if('uname' in session):
         if(request.method == 'GET'):
-            record = objuser.user_song_listen()
-            return render_template("user_song_listen.html", record=record)
+            abcd = objuser.user_song_listen()
+            return render_template("user_song_listen.html", record=abcd)
     else:
         flash("you can't access this page..please login to continue")
         return redirect(url_for('user_login'))
@@ -244,6 +254,39 @@ def user_search_blog():
         record = objuser.user_search_blog(search_term)
         print(record)
         return render_template('user_blog_listen.html',record=record) 
+    else:
+        flash("You cannot access this page. Please login to continue.")
+        return redirect(url_for('user_login'))
+    
+@app.route('/user_song_view', methods=['GET','POST'])
+def user_song_view():
+    if('uname' in session):
+        if(request.method=='GET'):
+            audio_id = request.args.get('audio_id')
+            record = objuser.user_song_view(audio_id)
+            return render_template("user_song_view.html", record=record)
+    else:
+        flash("You cannot access this page ... please login in to continue")
+        return redirect(url_for('user_login'))
+    
+@app.route('/user_blog_view', methods=['GET','POST'])
+def user_blog_view():
+    if('uname' in session):
+        if(request.method=='GET'):
+            audio_id = request.args.get('audio_id')
+            record = objuser.user_blog_view(audio_id)
+            return render_template("user_blog_view.html", record=record)
+    else:
+        flash("You cannot access this page ... please login in to continue")
+        return redirect(url_for('user_login'))
+    
+@app.route('/user_add_song_to_playlist', methods=['GET', 'POST'])
+def user_add_song_to_playlist():
+    if('uname' in session):
+        if(request.method == 'POST'):
+            playlist_name = request.form['playlist_name']
+            objuser.user_add_to_playlist_collection(playlist_name)
+            return redirect(url_for('user_add_song_to_playlist'))
     else:
         flash("You cannot access this page. Please login to continue.")
         return redirect(url_for('user_login'))
@@ -463,18 +506,36 @@ def creator_delete_audioblog():
         flash("you can't access this page..please login to continue")
         return redirect(url_for('creator_login'))
 
-@app.route('/creator_edit_audio',methods=['GET','POST'])
-def creator_edit_audio():
+@app.route('/creator_edit_audio_blog',methods=['GET','POST'])
+def creator_edit_audio_blog():
     if('cname' in session):
         if(request.method == 'GET'):
             audio_id = request.args.get('audio_id')
-            record = objcreator.creator_edit_audio(audio_id)
-            return render_template('creator_edit_audio.html',record=record) 
+            record = objcreator.creator_edit_audio_blog(audio_id)
+            return render_template('creator_edit_audio_blog.html',record=record) 
         else:
             audio_id=request.args.get('audio_id')
             category = request.form['category']
             title = request.form['title']
-            objcreator.creator_audio_update(audio_id, category, title)
+            objcreator.creator_audio_update_blog(audio_id, category, title)
+            flash('category changed successfully!!')
+            return redirect(url_for('creator_get_recorded'))
+    else:
+        flash("you can't access this page..please login to continue")
+        return redirect(url_for('creator_login'))
+    
+@app.route('/creator_edit_audio_upload',methods=['GET','POST'])
+def creator_edit_audio_upload():
+    if('cname' in session):
+        if(request.method == 'GET'):
+            audio_id = request.args.get('audio_id')
+            record = objcreator.creator_edit_audio_upload(audio_id)
+            return render_template('creator_edit_audio_upload.html',record=record) 
+        else:
+            audio_id=request.args.get('audio_id')
+            category = request.form['category']
+            title = request.form['title']
+            objcreator.creator_audio_update_upload(audio_id, category, title)
             flash('category changed successfully!!')
             return redirect(url_for('creator_get_recorded'))
     else:
@@ -503,9 +564,33 @@ def creator_search_blog():
         flash("You cannot access this page. Please login to continue.")
         return redirect(url_for('creator_login'))
 
+@app.route('/creator_song_view', methods=['GET','POST'])
+def creator_song_view():
+    if('cname' in session):
+        if(request.method=='GET'):
+            audio_id = request.args.get('audio_id')
+            record = objcreator.creator_song_view(audio_id)
+            return render_template("creator_song_view.html", record=record)
+    else:
+        flash("You cannot access this page ... please login in to continue")
+        return redirect(url_for('user_login'))
+    
+@app.route('/creator_blog_view', methods=['GET','POST'])
+def creator_blog_view():
+    if('cname' in session):
+        if(request.method=='GET'):
+            audio_id = request.args.get('audio_id')
+            record = objcreator.creator_blog_view(audio_id)
+            return render_template("creator_blog_view.html", record=record)
+    else:
+        flash("You cannot access this page ... please login in to continue")
+        return redirect(url_for('user_login'))
+
+# Error handlers and main method
+
 @app.errorhandler(404)
 def not_found(e):
     return "NOT FOUND"
 
 if __name__ == "__main__":
-    app.run(host='127.0.0.1', debug=True, port=5001)
+    app.run(host='192.168.1.10', debug=True, port=5001)
