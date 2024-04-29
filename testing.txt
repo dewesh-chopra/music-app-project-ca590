@@ -5,14 +5,14 @@ logo/favicon --- DONE
 about --- DONE
 dashboard --- DONE
 audio view page (both) --- DONE
+audio recording page (creator) --- DONE
+audio listen page (both) --- DONE
+login and signup page (both) --- DONE
+profile (both) --- DONE
+comment/review --- DONE
+edit pages (song/blog/password/account/ etc.) --- DONE
+otp page --- AS IS
 
-contribute (payment) --- SIR
-comment/review --- SIR
+home --- LEFT SOME --- AS IS
 
-home --- LEFT SOME --- REFER YOUR RESUME WEBPAGE
-
-otp page
-login and signup page (both)
-profile (both)
-audio recording page (creator)
-audio listen page (both)
+alert/flash etc. (all) --- LEFT TO DO

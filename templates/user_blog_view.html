@@ -1,73 +1,297 @@
 {% extends "base_navbar.html" %}
 
-{% block title %}
-MewSick - View Podcast
-{% endblock title %}
-
 {% block customCSS %}
-    <style>
-        body {
-            background-color: rgb(40, 40, 40);
-        }
+<style>
+    body {
+        background-color: rgb(40, 40, 40);
+    }
+    .infoSection {
+        text-align: center;
+        color: white;
+    }
+    .viewSection {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+    }
+    .viewCard {
+        width: 100%;
+        border: 3px solid white;
+        border-radius: 5px;
+    }
+    .commentSection {
+        display: flex;
+        flex-direction: column-reverse;
+        justify-content: center;
+        align-items: center;
+    }
+    .commentItem {
+        width: 100%;
+        border: 3px solid white;
+        border-radius: 5px;
+        margin-top: 5%;
+    }
+
+    @media (min-width: 240px) and (max-width: 720px) {
         .viewSection {
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
-            align-items: center;
+            flex-direction: column;
         }
         .viewCard {
             width: 80%;
-            border: 3px solid white;
-            border-radius: 5px;
-            margin-top: 5%;
         }
+        .commentSection {
+            flex-direction: column-reverse;
+        }
+        .commentItem {
+            width: 80%;
+        }
+    }
 
-        @media (min-width: 240px) and (max-width: 720px) {
-            .viewSection {
-                flex-direction: column;
-            }
-            .viewCard {
-                width: 80%;
-            }
-        }
-    </style>
+    #post{
+        margin: 10px;
+        padding: 6px;
+        padding-top: 2px;
+        padding-bottom: 2px;
+        text-align: center;
+        background-color: #ecb21f;
+        border-color: #a88734 #9c7e31 #846a29;
+        color: black;
+        border-width: 1px;
+        border-style: solid;
+        border-radius: 13px;
+        width: 50%;
+    }
+    .comment{
+        border: 1px solid rgba(16, 46, 46, 1);
+        background-color: rgba(16, 46, 46, 0.973);
+        float: left;
+        border-radius: 5px;
+        padding-left: 40px;
+        padding-right: 30px;
+        padding-top: 10px;
+        
+    }
+    .comment h5, .comment span, .darker h5, .darker span{
+        display: inline;
+    }
+    .comment p, .comment span, .darker p, .darker span{
+        color: rgb(184, 183, 183);
+    }
+    h1, h5{
+        color: white;
+        font-weight: bold;
+    }
+    label{
+        color: white;
+    }
+    #align-form{
+        margin-top: 20px;
+    }
+    .form-group p a{
+        color: white;
+    }
+    .form-group input,.form-group textarea{
+        background-color: rgb(40, 40, 40);
+        border: 1px solid rgba(16, 46, 46, 1);
+        border-radius: 12px;
+    }
+    form{
+        border: 1px solid rgba(16, 46, 46, 1);
+        background-color: rgb(40, 40, 40);
+        border-radius: 5px;
+        padding: 20px;
+     }
+    
+    .rating {
+        display: flex;
+        margin-top: -10px;
+        flex-direction: row-reverse;
+        margin-left: -4px;
+        float: left;
+    }
+    .rating>input {
+        display: none
+    }
+    .rating>label {
+        position: relative;
+        width: 19px;
+        font-size: 25px;
+        color: yellow;
+        cursor: pointer;
+    }
+    .rating>label::before {
+        content: "\2605";
+        position: absolute;
+        opacity: 0
+    }
+    .rating>label:hover:before, .rating>label:hover~label:before {
+        opacity: 1 !important
+    }
+    .rating>input:checked~label:before {
+        opacity: 1
+    }
+    .rating:hover>input:checked~label:before {
+      opacity: 0.4
+    }
+</style>
 {% endblock customCSS %}
 
-{% block content %}
+{% block content%}
 <main>
-    <div class="container">
-        <div class="viewSection">
-            <div class="card viewCard">
-                <div class="card-header">
-                    <p class="card-title">TITLE: {{record[0][0]}}</p>
-                </div>
+<div class="container">
+    <div class="section infoSection m-4 p-4">
+        <h2>Podcast details and reviews</h2>
+    </div>
 
-                <div class="card-body">
-                    <h5 class="card-title">Created by:</h5>
-                    <p class="card-text">{{record[0][5]}} {{record[0][6]}}</p>
+    <div class="section viewSection">
+        <div class="card viewCard">
+            <div class="card-header">
+                <p class="card-title">TITLE: {{record[0][0]}}</p>
+            </div>
+    
+            <div class="card-body">
+                <h5 class="card-title">Created by:</h5>
+                <p class="card-text">{{record[0][5]}} {{record[0][6]}}</p>
                 </div>
-
-                <div class="card-body">
-                    <h5 class="card-title">Created at:</h5>
-                    <p class="card-text">{{record[0][1]}}</p>
-                </div>
-
-                <div class="card-body">
-                    <h5 class="card-title">Category:</h5>
-                    <p class="card-text">{{record[0][2]}}</p>
-                </div>
-
-                <div class="card-body">
-                    <h5 class="card-title">Listen:</h5>
-                    <p class="card-text"><audio controls><source src="/static/audioblog/{{record[0][3]}}" type="audio/wav">Your browser does not support the audio element.</audio></p>
-                </div>
-
-                <div class="card-body">
-                    <h5 class="card-title">Text:</h5>
-                    <p class="card-text">{{record[0][4]}}</p>
-                </div>
+    
+            <div class="card-body">
+                <h5 class="card-title">Created at:</h5>
+                <p class="card-text">{{record[0][1]}}</p>
+            </div>
+    
+            <div class="card-body">
+                <h5 class="card-title">Category:</h5>
+                <p class="card-text">{{record[0][2]}}</p>
+            </div>
+    
+            <div class="card-body">
+                <h5 class="card-title">Listen:</h5>
+                <p class="card-text"><audio controls><source src="/static/audioblog/{{record[0][3]}}" type="audio/wav">Your browser does not support the audio element.</audio></p>
+            </div>
+    
+            <div class="card-body">
+                <h5 class="card-title">Text:</h5>
+                <p class="card-text">{{record[0][4]}}</p>
             </div>
         </div>
     </div>
+
+    <div class="section commentSection">
+        <div class="commentItem text-white m-4 p-4">
+            <h3>Comments</h3>
+            
+            {% if record2 %}
+            {% for r in record2 %}
+            <div class="comment mt-4 text-justify float-left w-100">
+                <img src="static/img/user_icon.png" alt="" class="rounded-circle" width="30" height="30">
+                <h5>{{r[0]}} </h5>
+                <span>posted on {{r[3].strftime('%d-%m-%Y')}}</span>
+                
+                <br>
+                
+                {% if r[2] == 5 %}
+                <label class="d-inline-block">
+                    <i class="fa-solid fa-star" style="color: #e60f4f;"></i>
+                    <i class="fa-solid fa-star" style="color: #e60f4f;"></i>
+                    <i class="fa-solid fa-star" style="color: #e60f4f;"></i>
+                    <i class="fa-solid fa-star" style="color: #e60f4f;"></i>
+                    <i class="fa-solid fa-star" style="color: #e60f4f;"></i>
+                </label>
+                {% endif %}
+                
+                {% if r[2] == 4 %}
+                <label class="d-inline-block">
+                    <i class="fa-solid fa-star" style="color: #e60f4f;"></i>
+                    <i class="fa-solid fa-star" style="color: #e60f4f;"></i>
+                    <i class="fa-solid fa-star" style="color: #e60f4f;"></i>
+                    <i class="fa-solid fa-star" style="color: #e60f4f;"></i>
+                    <i class="fa-regular fa-star" style="color: #bbc2ce;"></i>
+                </label>
+                {% endif %}
+                
+                {% if r[2] == 3 %}
+                <label class="d-inline-block">
+                    <i class="fa-solid fa-star" style="color: #e60f4f;"></i>
+                    <i class="fa-solid fa-star" style="color: #e60f4f;"></i>
+                    <i class="fa-solid fa-star" style="color: #e60f4f;"></i>
+                    <i class="fa-regular fa-star" style="color: #bbc2ce;"></i>
+                    <i class="fa-regular fa-star" style="color: #bbc2ce;"></i>
+                </label>
+                {% endif %}
+                
+                {% if r[2] == 2 %}
+                <label class="d-inline-block">
+                    <i class="fa-solid fa-star" style="color: #e60f4f;"></i>
+                    <i class="fa-solid fa-star" style="color: #e60f4f;"></i>
+                    <i class="fa-regular fa-star" style="color: #bbc2ce;"></i>
+                    <i class="fa-regular fa-star" style="color: #bbc2ce;"></i>
+                    <i class="fa-regular fa-star" style="color: #bbc2ce;"></i>
+                </label>
+                {% endif %}
+                
+                {% if r[2] == 1 %}
+                <label class="d-inline-block">
+                    <i class="fa-solid fa-star" style="color: #e60f4f;"></i>
+                    <i class="fa-regular fa-star" style="color: #bbc2ce;"></i>
+                    <i class="fa-regular fa-star" style="color: #bbc2ce;"></i>
+                    <i class="fa-regular fa-star" style="color: #bbc2ce;"></i>
+                    <i class="fa-regular fa-star" style="color: #bbc2ce;"></i>
+                </label>
+                {% endif %}
+
+                <br>
+
+                <p>{{r[1]}}</p>
+            </div>
+            {% endfor %}
+
+            {% else %}
+            <div class="comment mt-4 text-justify float-left w-100">
+                <p class="h3">No comments added</p>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="section commentItem">
+                <form id="align-form" action="/submit_blog_review" method="post">
+                    <div class="form-group">
+                        <h5>Leave a comment</h5>
+                        <textarea name="comment" id="" msg cols="30" rows="5" class="form-control text-white" style="background-color: rgba(16, 46, 46, 1);"></textarea>
+                    </div>
+
+                    <div class="form-group mt-4 mb-5">
+                        <h5 class="">Give star</h5>
+                    <div class="rating"> 
+                        <input type="radio" name="rating" value="5" id="5"><label for="5">☆</label>
+                        <input type="radio" name="rating" value="4" id="4"><label for="4">☆</label> 
+                        <input type="radio" name="rating" value="3" id="3"><label for="3">☆</label>
+                        <input type="radio" name="rating" value="2" id="2"><label for="2">☆</label>
+                        <input type="radio" name="rating" value="1" id="1"><label for="1">☆</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <input type="hidden" name="audio_id" value="{{request.args.get('audio_id')}}" />
+                </div>
+                    
+                <div class="form-group d-inline-block">
+                    <p class="text-secondary">Your comment along with your profile picture will be displayed on the website.</p>
+                </div>
+                
+                <div class="form-group">
+                    <button type="submit" id="post" class="btn">Post Comment</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
 </main>
+
+<script type='text/javascript'>var myLink = document.querySelector('a[href="#"]');
+    myLink.addEventListener('click', function(e) {
+        e.preventDefault();
+    });
+</script>
 {% endblock %}

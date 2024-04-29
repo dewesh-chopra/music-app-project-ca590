@@ -148,11 +148,11 @@ def user_logout():
         return redirect(url_for("user_login"))
     
 # Edit password module
-@app.route('/edit_password', methods=["GET", "POST"])
-def edit_password():
+@app.route('/user_edit_password', methods=["GET", "POST"])
+def user_edit_password():
     if 'uname' in session:
         if request.method=='GET':
-            return render_template("edit_password.html")
+            return render_template("user_edit_password.html")
         elif request.method=='POST':
             old_password = request.form['old_password']
             new_password = request.form['new_password']
@@ -160,7 +160,7 @@ def edit_password():
             data = [old_password, new_password]
             if not objvalid.required(data):
                 flash("Please do not enter blank text as password!")
-                return redirect(url_for("edit_password"))
+                return redirect(url_for("user_edit_password"))
             # Encrypt/decrypt
             enc = encryption()
             old_password = enc.convert(old_password)
@@ -172,7 +172,7 @@ def edit_password():
                 return redirect(url_for("user_profile"))
             else:
                 flash('Old password is incorrect.')
-                return redirect(url_for("edit_password"))
+                return redirect(url_for("user_edit_password"))
     else:
         flash("You cannot access this page..please login")
         return redirect(url_for("user_login"))
@@ -258,37 +258,101 @@ def user_search_blog():
         flash("You cannot access this page. Please login to continue.")
         return redirect(url_for('user_login'))
     
-@app.route('/user_song_view', methods=['GET','POST'])
-def user_song_view():
+@app.route('/user_add_playlist', methods=['GET', 'POST'])
+def user_add_playlist():
     if('uname' in session):
-        if(request.method=='GET'):
-            audio_id = request.args.get('audio_id')
-            record = objuser.user_song_view(audio_id)
-            return render_template("user_song_view.html", record=record)
+        if(request.method == 'GET'):
+            record = objuser.user_playlist_collection()
+            return render_template('user_add_playlist.html', record=record)
+        else:
+            playlist_name = request.form['playlist_name']
+            audio_id = request.form['audio_id']
+            objuser.user_add_playlist(playlist_name, audio_id)
+            return redirect(url_for('user_add_playlist'))
     else:
         flash("You cannot access this page ... please login in to continue")
         return redirect(url_for('user_login'))
-    
-@app.route('/user_blog_view', methods=['GET','POST'])
-def user_blog_view():
-    if('uname' in session):
-        if(request.method=='GET'):
-            audio_id = request.args.get('audio_id')
-            record = objuser.user_blog_view(audio_id)
-            return render_template("user_blog_view.html", record=record)
-    else:
-        flash("You cannot access this page ... please login in to continue")
-        return redirect(url_for('user_login'))
-    
-@app.route('/user_add_song_to_playlist', methods=['GET', 'POST'])
-def user_add_song_to_playlist():
+
+@app.route('/user_add_playlist_collection', methods=['GET', 'POST'])
+def user_add_playlist_collection():
     if('uname' in session):
         if(request.method == 'POST'):
             playlist_name = request.form['playlist_name']
-            objuser.user_add_to_playlist_collection(playlist_name)
-            return redirect(url_for('user_add_song_to_playlist'))
+            audio_id = request.args.get('audio_id')
+            objuser.user_add_playlist_collection(playlist_name)
+            return redirect(url_for('user_add_playlist', audio_id=audio_id))
     else:
-        flash("You cannot access this page. Please login to continue.")
+        flash("You cannot access this page ... please login in to continue")
+        return redirect(url_for('user_login'))
+
+@app.route('/user_blog_view',methods=['GET','POST'])
+def user_blog_view():
+    if('uname' in session):
+        if(request.method=='GET'):
+            audio_id=request.args.get('audio_id')
+            record=objuser.user_blog_view(audio_id)
+            record2=objuser.get_blog_review(audio_id)
+            return render_template("user_blog_view.html", record=record, record2=record2)
+    else:
+        flash("you can't access this page..please login to continue")
+        return redirect(url_for('user_login'))
+    
+@app.route('/submit_blog_review',methods=['GET','POST'])
+def submit_blog_review():
+    if('uname' in session):
+        if(request.method=='POST'):
+            audio_id=request.form['audio_id']
+            comment=request.form['comment']
+            star=request.form['rating']
+            objuser.submit_blog_review(audio_id,comment,star)
+            return redirect(url_for('user_blog_view',audio_id=audio_id))
+    else:
+        flash("you can't access this page..please login to continue")
+        return redirect(url_for('user_login'))
+
+@app.route('/user_get_blogs',methods=['GET','POST'])
+def user_get_blogs():
+    if('uname' in session):
+        if(request.method=='GET'):
+            record=objuser.user_blog_listen()
+            return render_template("user_blog_listen.html",record=record)
+    else:
+        flash("you can't access this page..please login to continue")
+        return redirect(url_for('user_login'))
+    
+@app.route('/user_song_view',methods=['GET','POST'])
+def user_song_view():
+    if('uname' in session):
+        if(request.method=='GET'):
+            audio_id=request.args.get('audio_id')
+            record=objuser.user_song_view(audio_id)
+            record2=objuser.get_song_review(audio_id)
+            return render_template("user_song_view.html", record=record, record2=record2)
+    else:
+        flash("you can't access this page..please login to continue")
+        return redirect(url_for('user_login'))
+    
+@app.route('/submit_song_review',methods=['GET','POST'])
+def submit_song_review():
+    if('uname' in session):
+        if(request.method=='POST'):
+            audio_id=request.form['audio_id']
+            comment=request.form['comment']
+            star=request.form['rating']
+            objuser.submit_song_review(audio_id,comment,star)
+            return redirect(url_for('user_song_view',audio_id=audio_id))
+    else:
+        flash("you can't access this page..please login to continue")
+        return redirect(url_for('user_login'))
+
+@app.route('/user_get_songs',methods=['GET','POST'])
+def user_get_songs():
+    if('uname' in session):
+        if(request.method=='GET'):
+            record=objuser.user_song_listen()
+            return render_template("user_song_listen.html",record=record)
+    else:
+        flash("you can't access this page..please login to continue")
         return redirect(url_for('user_login'))
 
 # CREATOR MODULES
@@ -411,6 +475,36 @@ def creator_logout():
     else:
         flash("You cannot access this page..please login")
         return redirect(url_for("creator_login"))
+
+@app.route('/creator_edit_password', methods=["GET", "POST"])
+def creator_edit_password():
+    if 'cname' in session:
+        if request.method=='GET':
+            return render_template("creator_edit_password.html")
+        elif request.method=='POST':
+            old_password = request.form['old_password']
+            new_password = request.form['new_password']
+            # validate passwords
+            data = [old_password, new_password]
+            if not objvalid.required(data):
+                flash("Please do not enter blank text as password!")
+                return redirect(url_for("creator_edit_password"))
+            # Encrypt/decrypt
+            enc = encryption()
+            old_password = enc.convert(old_password)
+            if objcreator.match_password(session['cname'], old_password)==True:
+                enc = encryption()
+                new_password = enc.convert(new_password)
+                objcreator.change_password(session['cname'], new_password)
+                flash('Password successfully changed.')
+                return redirect(url_for("creator_profile"))
+            else:
+                flash('Old password is incorrect.')
+                return redirect(url_for("creator_edit_password"))
+    else:
+        flash("You cannot access this page..please login")
+        return redirect(url_for("creator_login"))
+    
 
 @app.route('/creator_audio',methods=['GET','POST'])
 def creator_audio():
@@ -586,7 +680,7 @@ def creator_blog_view():
         flash("You cannot access this page ... please login in to continue")
         return redirect(url_for('user_login'))
 
-# Error handlers and main method
+# Error handlers, testers and main method
 
 @app.errorhandler(404)
 def not_found(e):

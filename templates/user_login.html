@@ -1,7 +1,7 @@
 {% extends "base_navbar.html" %}
 
 {% block title %}
-Login Page
+User LogIn
 {% endblock title %}
 
 {% block customCSS %}
@@ -17,14 +17,11 @@ Login Page
           class="my-5 display-5 fw-bold ls-tight"
           style="color: hsl(218, 81%, 95%)"
         >
-          Cloud Beats<br />
+          MewSick<br />
           <span style="color: hsl(218, 81%, 75%)"
-            >Tailored music on the go</span
+            >Songs, podcasts and much more.</span
           >
         </h1>
-        <p class="mb-4 opacity-70" style="color: hsl(218, 81%, 85%)">
-          Experience Your Soundtrack: Where Music Meets Magic
-        </p>
       </div>
 
       <div class="col-lg-6 mb-5 mb-lg-0 position-relative">
@@ -42,7 +39,7 @@ Login Page
             
              <form action="/user_login" method="post">
               <!-- 2 column grid layout with text inputs for the first and last names -->
-              <div class="text-center h4 py-3">LogIn</div>
+              <div class="text-center h4 py-3">User LogIn</div>
 
               <!-- Jinja for alerting user when regration is successful -->
               {% with messages = get_flashed_messages() %}

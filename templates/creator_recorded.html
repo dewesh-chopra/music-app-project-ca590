@@ -1,81 +1,78 @@
 {% extends "base_navbar.html" %}
 
 {% block title %}
-Creator Dashboard
+Creator Recorded
 {% endblock title %}
 
 {% block customCSS %}
 <style>
-table, th, td {
-    border: 1px solid white;
-    border-collapse: collapse;
-}
-th, td {
-    background-color: #96D4D4;
-    text-align: center;
-}
+    body {
+        background-color: rgb(40, 40, 40);
+    }
+    main {
+        display: flex;
+        justify-content: center;
+    }
 </style>
 {% endblock customCSS %}
 
 {% block content %}
 <main>
-    <div>
-        <p>Blogs by creator</p>
-
-        <div>
-            <form class="d-flex" role="search" method="post" action="/creator_search_blog">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="search_term">
-                <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
-        </div>
-    </div>
-
-    <div class="viewtable pt-5">
-        <!-- Jinja for alerting user when regration is successful -->
+    <div class="container m-5 p-5">
         {% with messages = get_flashed_messages() %}
         {% if messages %}
         {% for message in messages %}
-        <div class="alert alert-danger mt-3">
-          {{ message }}
-        </div>
+        <script>
+            alert('{{message}}')
+        </script>   
         {% endfor %}
         {% endif %}
         {% endwith %}
+
+        <div class="section searchSection text-white">
+            <h2>Blogs</h2>
+            <div class="mt-4 mb-4">
+                <form class="d-flex" role="search" method="post" action="/creator_search_blog">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="search_term">
+                    <button class="btn btn-outline-warning" type="submit">Search</button>
+                </form>
+            </div>
+        </div>
         
-        <table width="80%" align="center">
-            <tr>
-                <th>S.no.</th>
-                <th>Id</th>
-                <th>Category</th>
-                <th>Title</th>
-                <th>Play</th>
-                <th>View</th>
-                <th>Edit</th>
-                <th>Delete</th>
-            </tr>
+        <div class="section tableSection">
+            <table class="table table-light table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">S.no.</th>
+                        <th scope="col">Category</th>
+                        <th scope="col">Title</th>
+                        <th scope="col">Play</th>
+                        <th scope="col">Details</th>
+                        <th scope="col">Edit</th>
+                        <th scope="col">Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for r in record %}
+                    <tr>
+                        <th scope="row">{{ loop.index }}</th>
+                        <td>{{ r[1] }}</td>
+                        <td>{{ r[2] }}</td>
+                        <td>
+                            <audio controls>
+                            <source src="/static/audioblog/{{ r[3] }}" type="audio/wav">Your browser does not support the audio element.
+                            </audio>
+                        </td>
+                        <td><a class="btn btn-warning" href="/creator_blog_view?audio_id={{r[0]}}">View</a></td>
 
-            {% for r in record %}
-            <tr>
-                <td>{{loop.index}}</td>
-                <td>{{r[0]}}</td>
-                <td>{{r[1]}}</td>
-                <td>{{r[2]}}</td>
+                        <td><a href="/creator_edit_audio_blog?audio_id={{r[0]}}"><img src="/static/img/tools/edit.png" alt="Edit icon" width="40px"></a></td>
 
-                <td><audio controls><source src="/static/audioblog/{{r[3]}}" type="audio/wav"></audio></td>
-                
-                <td><a href="/creator_blog_view?audio_id={{r[0]}}">View</a></td>
-
-                <td><a href="/creator_edit_audio_blog?audio_id={{r[0]}}"><img src="/static/img/tools/edit.png" alt="Edit icon" width="40px"></a></td>
-                
-                <td><a href="/creator_delete_audioblog?audioblog_id={{r[0]}}"><img src="/static/img/tools/bin.png" alt="Delete icon" width="40px"></a></td>
-            </tr>
-            {% endfor %}
-        </table>
+                        <td><a href="/creator_delete_audioblog?audioblog_id={{r[0]}}"><img src="/static/img/tools/bin.png" alt="Delete icon" width="40px"></a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
 </main>
-
-<script>
-    // JS code to fetch and play Audio
-    // location is '/static/audioblog/name.mp3'
-</script>
 {% endblock %}

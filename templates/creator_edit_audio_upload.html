@@ -4,43 +4,69 @@
 Edit Song
 {% endblock title %}
 
+{% block customCSS %}
+<style>
+    body {
+        background-color: rgb(40, 40, 40);
+    }
+    main {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+</style>
+{% endblock customCSS %}
+
 {% block content %}
-
-{% with messages = get_flashed_messages() %}
-{% if messages %}
-{% for message in messages %}
-<script>
-    alert("{{message}}")
-</script>
+<main>
     
-{% endfor %}
-{% endif %}
-{% endwith %}
-<div class="container">
-    <h1 class="text-center">Edit Song</h1>
+    <div class="container m-5 p-5 text-white">
+        <h1 class="text-center">Change title or category</h1>
 
-    {% for r in record %}
-    <form class="container mt-4" action="/creator_edit_audio_upload?audio_id={{request.args.get('audio_id')}}" method="post" enctype="multipart/form-data">
-        <div class="row">
-            <div class="col-6">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        {% for message in messages %}
+        <script>
+            alert("{{message}}")
+        </script>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+
+        {% for r in record %}
+        <form class="mt-5" action="/creator_edit_audio_upload?audio_id={{request.args.get('audio_id')}}" method="post" enctype="multipart/form-data">
+            <div class="m-2 p-2">
                 <select id="category" name="category" class="form-select w-50">
+                    <option {% if(r[0] == 'Rock') %} selected {% endif %}>Rock</option>
+                    <option {% if(r[0] == 'Pop') %} selected {% endif %}>Pop</option>
+                    <option {% if(r[0] == 'Metal') %} selected {% endif %}>Metal</option>
+                    <option {% if(r[0] == 'Punk') %} selected {% endif %}>Punk</option>
+                    <option {% if(r[0] == 'Indie') %} selected {% endif %}>Indie</option>
+                    <option {% if(r[0] == 'Country') %} selected {% endif %}>Country</option>
+                    <option {% if(r[0] == 'Blues') %} selected {% endif %}>Blues</option>
+                    <option {% if(r[0] == 'Vintage') %} selected {% endif %}>Vintage</option>
+                    <option {% if(r[0] == 'Indian') %} selected {% endif %}>Indian</option>
+                    <option {% if(r[0] == 'Classical') %} selected {% endif %}>Classical</option>
+                    <option {% if(r[0] == 'Folk') %} selected {% endif %}>Folk</option>
+                    <option {% if(r[0] == 'Instrumental') %} selected {% endif %}>Instrumental</option>
                     <option {% if(r[0] == 'Spritual') %} selected {% endif %}>Spritual</option>
-                    <option {% if(r[0] == 'Marketing') %} selected {% endif %}>Marketing</option>
-                    <option {% if(r[0] == 'Story') %} selected {% endif %}>Story</option>
+                    <option {% if(r[0] == 'Environment') %} selected {% endif %}>Environment</option>
+                    <option {% if(r[0] == 'Political') %} selected {% endif %}>Political</option>
                     <option {% if(r[0] == 'Social') %} selected {% endif %}>Social</option>
                     <option {% if(r[0] == 'Others') %} selected {% endif %}>Others</option>
                 </select>
             </div>
 
-            <div class="col-6">
+            <div class="m-2 p-2">
                 <input class="form-control" type="text" id="title" name="title" placeholder="Title">
             </div>
-            
-            <div class="col-6"><button class="btn btn-warning" type="submit">Update</button></div>
-        </div>
-    </form>
-    {% endfor %}
+        
+            <div class="m-2 p-2">
+                <button class="btn btn-warning" type="submit">Update</button>
+            </div>
+        </form>
+        {% endfor %}
+    </div>
 
-</div>
-
+</main>
 {% endblock %}

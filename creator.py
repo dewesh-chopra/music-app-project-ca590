@@ -22,6 +22,32 @@ class CreatorOperation:
         mycursor.close()
         db.close()
 
+    def creator_match_password(self, cname, password):
+        db = self.connection()
+        mycursor = db.cursor()
+        sq = "select password from creator_login_signup where cname=%s;"
+        record=[cname]
+        mycursor.execute(sq, record)
+        row = mycursor.fetchall()
+        mycursor.close()
+        db.close()
+        print(row[0][0])
+        if row[0][0] == password:
+            return True
+        else:
+            return False
+    
+    def creator_change_password(self, cname, password):
+        db = self.connection()
+        mycursor = db.cursor()
+        sq = "update creator_login_signup set password=%s where cname=%s;"
+        record=[password, cname]
+        mycursor.execute(sq,record)
+        db.commit()
+        mycursor.close()
+        db.close()
+        return
+    
     def creator_update(self, fname, lname):
         db = self.connection()
         mycursor = db.cursor()

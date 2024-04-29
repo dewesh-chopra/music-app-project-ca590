@@ -1,72 +1,74 @@
 {% extends "base_navbar.html" %}
 
+{% block title %}
+Podcasts
+{% endblock title %}
+
+{% block customCSS %}
+<style>
+    body {
+        background-color: rgb(40, 40, 40);
+    }
+    main {
+        display: flex;
+        justify-content: center;
+    }
+</style>
+{% endblock customCSS %}
+
 {% block content %}
-
-{% with messages = get_flashed_messages() %}
-{% if messages %}
-{% for message in messages %}
-<script>
-    alert("{{message}}")
-</script>
-    
-{% endfor %}
-{% endif %}
-{% endwith %}
-
-        <div class="container pt-5">
-          {% with messages = get_flashed_messages() %}
-          {% if messages %}
-          {% for message in messages %}
-          <script>
+<main>
+    <div class="container m-5 p-5">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        {% for message in messages %}
+        <script>
             alert('{{message}}')
-          </script>
-              
-          </div>
-          {% endfor %}
-          {% endif %}
-          {% endwith %}
-        
+        </script>   
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
 
-          <div>
-            <p>Blogs</p>
-            <div>
-              <form class="d-flex" role="search" method="post" action="/user_search_blog">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="search_term">
-                <button class="btn btn-outline-success" type="submit">Search</button>
-              </form>
+        <div class="section searchSection text-white">
+            <h2>Blogs</h2>
+            <div class="mt-4 mb-4">
+                <form class="d-flex" role="search" method="post" action="/user_search_blog">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="search_term">
+                    <button class="btn btn-outline-warning" type="submit">Search</button>
+                </form>
             </div>
-          </div>
-        <div class="pt-5">
-          <table class="table table-dark table-hover">
-            <thead>
-                <tr>
-                  <th scope="col">S. no.</th>
-                  <th scope="col">Category</th>
-                  <th scope="col">Title</th>
-                  <th scope="col">Play</th>
-                  <th scope="col">Details</th>
-                  <th scope="col">Playlist</th>
-                </tr>
-              </thead>
-              <tbody>
-                {% for r in record %}
-                <tr>
-                  <th scope="row">{{ loop.index }}</th>
-                  <td>{{r[1]}}</td>
-                  <td>{{r[2]}}</td>
-                  <td>
-                    <audio controls>
-                    <source src="/static/audioblog/{{r[3]}}" type="audio/wav">
-                    Your browser does not support the audio element.
-                    </audio>
-                  </td>
-                  <td><a class="btn btn-warning" href="/user_blog_view?audio_id={{r[0]}}">View</a></td>
-                  <td><button class="btn btn-warning">Add</button></td>
-                </tr>
-                {% endfor %}
-              </tbody>
-          </table>
         </div>
+        
+        <div class="section tableSection">
+            <table class="table table-light table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">S.no.</th>
+                        <th scope="col">Category</th>
+                        <th scope="col">Title</th>
+                        <th scope="col">Play</th>
+                        <th scope="col">Details</th>
+                        <th scope="col">Playlist</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for r in record %}
+                    <tr>
+                        <th scope="row">{{ loop.index }}</th>
+                        <td>{{ r[1] }}</td>
+                        <td>{{ r[2] }}</td>
+                        <td>
+                            <audio controls>
+                            <source src="/static/audioblog/{{ r[3] }}" type="audio/wav">Your browser does not support the audio element.
+                            </audio>
+                        </td>
+                        <td><a class="btn btn-warning" href="/user_blog_view?audio_id={{ r[0] }}">View</a></td>
+                        <td><a class="btn btn-warning" href="/user_add_playlist?audio_id={{ r[0] }}">Add</a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
-
+    </div>
+</main>
 {% endblock %}

@@ -1,60 +1,141 @@
 {% extends "base_navbar.html" %}
 
-{% block content %}
+{% block title %}
+Record or upload audio
+{% endblock title %}
 
-{% with messages = get_flashed_messages() %}
-{% if messages %}
-{% for message in messages %}
-<script>
-    alert("{{message}}")
-</script>
-    
-{% endfor %}
-{% endif %}
-{% endwith %}
-<div class="container">
-    <h1 class="text-center">Your Audio Platform</h1>
+{% block customCSS %}
+<style>
+    body {
+        background-color: rgb(40, 40, 40);
+    }
+    label {
+        color: white;
+    }
+    .spanAsterisk {
+        color: red;
+        font-size: medium;
+    }
+    .infoSection {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .uploadSection {
+        border: 3px solid white;
+        border-radius: 5px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .recordSection {
+        border: 3px solid white;
+        border-radius: 5px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .item {
+        margin: 4px;
+        padding: 4px;
+    }
 
-    <form class="container mt-4" action="/creator_audioblog" method="post" enctype="multipart/form-data">
-        <div class="row">
-            <div class="col-6">
-                <select id="category" name="category" class="form-select w-50">
-                    <option>Rock</option>
-                    <option>Pop</option>
-                    <option>Vintage</option>
-                    <option>Instrumental</option>
-                    <option>Jazz</option>
-                    <option>Spiritual</option>
-                    <option>Extra</option>
-                </select>
-            </div>
-
-            <div class="col-6"><input class="form-control" type="file" name="audio"></div>
-            
-            <div class="col-6"><input class="form-control" type="text" id="title" name="title" placeholder="Audio title"></div>
-            
-            <div class="col-6"><button class="btn btn-warning" type="submit">Upload audio</button></div>
-        </div>
-    </form>
-
-    OR
-    
-    <div class="text-center">
-        <span class="text-warning">Record Your Audio Blog in English</span><a href="/creator_audioblog?lang=1" onclick=useCategory(this)><img src="/static/img/audioblog/rec.png" width="50px" height="50px"></a>
-    </div>
-
-    <div class="text-center">
-        <span class="text-warning">Record Your Audio Blog in Hindi</span><a href="/creator_audioblog?lang=2" onclick=useCategory(this)><img src="/static/img/audioblog/rec.png" width="50px" height="50px"></a>
-    </div>
-
-    <script>
-        function useCategory(link) {
-            let cat = document.getElementById('category').value
-            let title = document.getElementById('title').value
-            link.href = link.href + "&category=" + cat + "&title=" + title
+    @media (min-width: 240px) and (max-width: 720px) {
+        .aboutCard {
+            width: 80%;
         }
-    </script>
+    }
+</style>
+{% endblock customCSS %}
 
-</div>
+{% block content %}
+<main>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    {% for message in messages %}
+    <script>alert("{{message}}")</script>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
 
+    <div class="container m-5 p-5">
+        <h1 class="text-center text-white">Upload a song or record a podcast</h1>
+
+        <!-- <div class="section text-white infoSection">
+            <p>Title and category are important wheather you choose to upload or record.</p>
+            <p>You can choose to upload the song via the file chooser and submit button.</p>
+            <p>Alternatively press the desired microphone icon to record a podcast in real time.</p>
+        </div> -->
+
+        <div class="section text-white m-2 p-2 infoSection">
+            <p>UPLOAD</p>
+        </div>
+        <div class="section uploadSection">
+            <form action="/creator_audioblog" method="post" enctype="multipart/form-data">
+                <div class="row formDiv">
+                    <div class="item">
+                        <label for="category"><span class="spanAsterisk">*</span> Category: </label>
+                        <select id="category" name="category" class="form-select w-50" required>
+                            <option>Rock</option>
+                            <option>Pop</option>
+                            <option>Metal</option>
+                            <option>Punk</option>
+                            <option>Indie</option>
+                            <option>Country</option>
+                            <option>Blues</option>
+                            <option>Vintage</option>
+                            <option>Indian</option>
+                            <option>Classical</option>
+                            <option>Folk</option>
+                            <option>Instrumental</option>
+                            <option>Spiritual</option>
+                            <option>Environment</option>
+                            <option>Political</option>
+                            <option>Social</option>
+                            <option>Other</option>
+                        </select>
+                    </div>
+
+                    <div class="item">
+                        <label for="title"><span class="spanAsterisk">*</span> Title: </label>
+                        <input class="form-control" type="text" id="title" name="title" placeholder="Audio title" required>
+                    </div>
+    
+                    <div class="item">
+                        <label for="audio">Select song file: </label>
+                        <input class="form-control" type="file" name="audio">
+                    </div>  
+                
+                    <div class="item">
+                        <button class="btn btn-warning" type="submit">Upload audio</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="section text-white m-2 p-2 infoSection">
+            <p>RECORD</p>
+        </div>
+        <div class="section recordSection">
+            <div class="item text-center">
+                <span class="text-warning">Record podcast in English</span> <a href="/creator_audioblog?lang=1" onclick=useCategory(this)><img src="/static/img/audioblog/rec.png" width="50px" height="50px"></a>
+            </div>
+    
+            <div class="item text-center">
+                <span class="text-warning">Record podcast in Hindi</span> <a href="/creator_audioblog?lang=2" onclick=useCategory(this)><img src="/static/img/audioblog/rec.png" width="50px" height="50px"></a>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+    function useCategory(link) {
+        let cat = document.getElementById('category').value
+        let title = document.getElementById('title').value
+        link.href = link.href + "&category=" + cat + "&title=" + title
+    }
+</script>
 {% endblock %}
