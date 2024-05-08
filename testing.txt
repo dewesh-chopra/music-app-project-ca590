@@ -16,3 +16,116 @@ otp page --- AS IS
 home --- LEFT SOME --- AS IS
 
 alert/flash etc. (all) --- LEFT TO DO
+
+<!-- {% extends "base_navbar.html" %}
+
+{% block title %}
+CloudBeats - Creator profile
+{% endblock title %}
+
+{% block customCSS %}
+<link rel="stylesheet" href="../static/css/signup-login-page.css" />
+{% endblock customCSS %}
+
+{% block content %}
+<section class="background-radial-gradient overflow-hidden">
+  <div class="container px-4  px-md-5 text-center text-lg-start my-1 ">
+    <div class="row gx-lg-5 align-items-center mb-5">
+      <div class="col-lg-6 mb-5 mb-lg-0" style="z-index: 10">
+        <h1 class="my-5 display-5 fw-bold ls-tight" style="color: hsl(218, 81%, 95%)">
+          CloudBeats<br />
+          <span style="color: hsl(218, 81%, 75%)">Songs, podcats and much more.</span>
+        </h1>
+      </div>
+
+      <div class="col-lg-6 mb-5 mb-lg-0 position-relative">
+        <div id="radius-shape-1" class="position-absolute rounded-circle shadow-5-strong"></div>
+        <div id="radius-shape-2" class="position-absolute shadow-5-strong"></div>
+
+        <div class="card bg-glass ">
+          <div class="card-body px-4 py-5 px-md-5 ">
+
+            <form action="/creator_profile" method="POST">
+              
+              <div class="text-center h4 py-3">Your Profile</div>
+              
+              {% with messages = get_flashed_messages() %}
+              {% if messages %}
+              {% for message in messages %}
+              <div class="alert alert-danger mt-3">
+              {{ message }}
+              </div>
+              {% endfor %}
+              {% endif %}
+              {% endwith %}
+              
+              {% for r in record %}
+              
+             
+              <div class="form-outline mb-4">
+                <div><img src="/static/img/creator/{{r[5]}}" alt="This is an image" width="30%"></div>
+                
+                <label class="form-label" for="form3Example3">Creator photo</label>
+              </div>
+              
+              
+              <div class="row">
+                <div class="col-md-6 mb-4">
+                  <div class="form-outline">
+                    <input name="fname" value="{{r[0]}}" type="text" id="form3Example1" class="form-control" />
+                    <label class="form-label" for="form3Example1">First name</label>
+                  </div>
+                </div>
+
+                <div class="col-md-6 mb-4">
+                  <div class="form-outline">
+                    <input name="lname" value="{{r[1]}}" type="text" id="form3Example2" class="form-control" />
+                    <label class="form-label" for="form3Example2">Last name</label>
+                  </div>
+                </div>
+              </div>
+
+              
+              <div class="form-outline mb-4">
+                <div class="form-control mb-text-muted">{{r[2]}}</div>
+                
+                <label class="form-label" for="form3Example3">Username
+              </div>
+
+              
+              <div class="form-outline mb-4">
+                <div class="form-control mb-text-muted">{{r[3]}}</div>
+                
+                <label class="form-label" for="form3Example3">Email address</label>
+              </div>
+
+              {% endfor %}
+
+              
+              <button type="submit" class="btn btn-primary btn-block mb-4">
+                Save changes
+              </button>
+
+              
+              <a class="btn btn-primary btn-block mb-4 btn-danger" href="/edit_photo">
+                Edit photo
+              </a>
+
+              
+              <a class="btn btn-primary btn-block mb-4 btn-danger" href="/creator_edit_password">
+                Edit password
+              </a>
+
+              
+              <a class="btn btn-primary btn-block mb-4 btn-danger" href="/delete_creator_account">
+                Delete Account
+              </a>
+
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %} -->

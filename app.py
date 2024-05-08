@@ -95,26 +95,34 @@ def otpverify():
             n3=request.form['n3']
             n4=request.form['n4']
             otpinput = n1+n2+n3+n4
-            if session['uname']:    # USER
-                if(str(otpinput) == otpinput):
-                    flash("Successfully Registered...login now")
-                    return redirect(url_for('user_login'))
-                else:
-                    email=request.form['email']
-                    objuser.user_delete(email)
-                    flash("Email Verification Failed... Register Again!!")
-                    return redirect(url_for('user_signup'))
-            if session['cname']:    # CREATOR
-                if(str(otpinput) == otpinput):
-                    flash("Successfully Registered...login now")
-                    return redirect(url_for('creator_login'))
-                else:
-                    email=request.form['email']
-                    objuser.creator_delete(email)
-                    flash("Email Verification Failed... Register Again!!")
-                    return redirect(url_for('creator_signup'))
+            if(str(otpinput) == otpinput):
+                flash("Successfully Registered...login now")
+                return redirect(url_for('user_login'))
+            else:
+                email=request.form['email']
+                objuser.user_delete(email)
+                flash("Email Verification Failed... Register Again!!")
+                return redirect(url_for('user_signup'))
+            # if session['uname']:    # USER
+            #     if(str(otpinput) == otpinput):
+            #         flash("Successfully Registered...login now")
+            #         return redirect(url_for('user_login'))
+            #     else:
+            #         email=request.form['email']
+            #         objuser.user_delete(email)
+            #         flash("Email Verification Failed... Register Again!!")
+            #         return redirect(url_for('user_signup'))
+            # if session['cname']:    # CREATOR
+            #     if(str(otpinput) == otpinput):
+            #         flash("Successfully Registered...login now")
+            #         return redirect(url_for('creator_login'))
+            #     else:
+            #         email=request.form['email']
+            #         objuser.creator_delete(email)
+            #         flash("Email Verification Failed... Register Again!!")
+            #         return redirect(url_for('creator_signup'))
     else:
-        return "can't access this page" 
+        return render_template('user_login') 
 
 @app.route("/user_login", methods=["GET", "POST"])
 def user_login():
@@ -164,10 +172,10 @@ def user_edit_password():
             # Encrypt/decrypt
             enc = encryption()
             old_password = enc.convert(old_password)
-            if objuser.match_password(session['uname'], old_password)==True:
+            if objuser.user_match_password(session['uname'], old_password)==True:
                 enc = encryption()
                 new_password = enc.convert(new_password)
-                objuser.change_password(session['uname'], new_password)
+                objuser.user_change_password(session['uname'], new_password)
                 flash('Password successfully changed.')
                 return redirect(url_for("user_profile"))
             else:
@@ -492,10 +500,10 @@ def creator_edit_password():
             # Encrypt/decrypt
             enc = encryption()
             old_password = enc.convert(old_password)
-            if objcreator.match_password(session['cname'], old_password)==True:
+            if objcreator.creator_match_password(session['cname'], old_password)==True:
                 enc = encryption()
                 new_password = enc.convert(new_password)
-                objcreator.change_password(session['cname'], new_password)
+                objcreator.creator_change_password(session['cname'], new_password)
                 flash('Password successfully changed.')
                 return redirect(url_for("creator_profile"))
             else:
@@ -504,7 +512,18 @@ def creator_edit_password():
     else:
         flash("You cannot access this page..please login")
         return redirect(url_for("creator_login"))
-    
+
+@app.route('/delete_creator_account', methods=["GET", "POST"])
+def delete_creator_account():
+    if 'cname' in session:
+        if request.method=='GET':
+            objuser.creator_delete(session['cname'])
+            session.clear()
+            flash("Account deleted successfully!")
+            return redirect(url_for("creator_signup"))
+    else:
+        flash("You cannot access this page..please login")
+        return redirect(url_for("creator_login"))
 
 @app.route('/creator_audio',methods=['GET','POST'])
 def creator_audio():
@@ -687,4 +706,4 @@ def not_found(e):
     return "NOT FOUND"
 
 if __name__ == "__main__":
-    app.run(host='192.168.1.10', debug=True, port=5001)
+    app.run(host='192.168.43.75', debug=True, port=5001)
